@@ -2,8 +2,9 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import { UserProfileForm } from 'react-stormpath';
 
-export default class ProfilePage extends React.Component {  
+export default class ProfilePage extends React.Component {
   render() {
+    console.log("this, props.", this);
     return (
       <DocumentTitle title={`My Profile`}>
       <div className="container">

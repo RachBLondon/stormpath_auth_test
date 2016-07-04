@@ -5,11 +5,17 @@ var path = require('path');
 var express = require('express');
 var webpack = require('webpack');
 var config = require('./webpack.config');
+const axios           = require('axios');
+const env2            = require('env2')('./config.env');
+const async           = require('async');
+
+const request = require('request');
 
 var app = express();
 var compiler = webpack(config);
+var testRes;
 
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -18,6 +24,9 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.get('/css/bootstrap.min.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'build/css/bootstrap.min.css'));
+});
+app.get('/css/style.css', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build/css/style.css'));
 });
 
 app.use(stormpath.init(app, {
@@ -67,6 +76,8 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
 });
 
 app.get('*', function (req, res) {
+  console.log("req.user.givenName >>>>>", req.user);
+  console.log("req.body.givenName >>>>>", req.body);
   res.sendFile(path.join(__dirname, 'build/index.html'));
 });
 
